@@ -1,0 +1,3 @@
+C:/Users/18502/Desktop/simple-covid-simulation/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/18502/Desktop/simple-covid-simulation/cmake-build-debug/CMakeFiles/simple_covid_simulation.dir
+C:/Users/18502/Desktop/simple-covid-simulation/cmake-build-debug/CMakeFiles/edit_cache.dir
