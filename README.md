@@ -30,7 +30,7 @@ P(Infection with one with masks, one without, no social distancing): 50%
 
 P(Infection with one with masks, one without with social distancing): 30% 
 
-P(Infection with both wearing masks, no social distancing): 20% (covid can still spread if one do wash their hands often)
+P(Infection with both wearing masks, no social distancing): 20% (covid can still spread if one does not wash their hands often)
 
 P(Infection with both wearing masks, and social distancing): 5%
 
