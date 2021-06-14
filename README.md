@@ -1,8 +1,10 @@
-#Simple Covid Simulation Project
+# Simple Covid Simulation Project
 
 My idea comes from this video:https://www.youtube.com/watch?v=gxAaO2rsdIs&t=1102s
 
 Using SFML Library to simulate covid infection.
+
+To run this project, one must have the SFML library named "SFML" in your c drive, or change the directory in CMake
 
 Disclaimer: This model is for simulation purpose only. It does not represent covid in the real world.
 
