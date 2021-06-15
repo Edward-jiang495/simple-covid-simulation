@@ -24,7 +24,7 @@ These information come from this page:https://www.doh.wa.gov/Portals/1/Documents
 
 Note that these stats are only for simulation only. It does not represent covid in the real world.
 
-P(Infection with no rules): 90% (your sneezes and cough can spread far away)
+P(Infection with no rules): 80% (your sneezes and cough can spread far away)
 
 P(Infection with one with masks, one without, no social distancing): 50%
 
