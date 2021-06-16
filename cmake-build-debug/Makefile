@@ -122,6 +122,33 @@ simple_covid_simulation/fast:
 	$(MAKE) -f CMakeFiles\simple_covid_simulation.dir\build.make CMakeFiles/simple_covid_simulation.dir/build
 .PHONY : simple_covid_simulation/fast
 
+community.obj: community.cpp.obj
+
+.PHONY : community.obj
+
+# target to build an object file
+community.cpp.obj:
+	$(MAKE) -f CMakeFiles\simple_covid_simulation.dir\build.make CMakeFiles/simple_covid_simulation.dir/community.cpp.obj
+.PHONY : community.cpp.obj
+
+community.i: community.cpp.i
+
+.PHONY : community.i
+
+# target to preprocess a source file
+community.cpp.i:
+	$(MAKE) -f CMakeFiles\simple_covid_simulation.dir\build.make CMakeFiles/simple_covid_simulation.dir/community.cpp.i
+.PHONY : community.cpp.i
+
+community.s: community.cpp.s
+
+.PHONY : community.s
+
+# target to generate assembly for a file
+community.cpp.s:
+	$(MAKE) -f CMakeFiles\simple_covid_simulation.dir\build.make CMakeFiles/simple_covid_simulation.dir/community.cpp.s
+.PHONY : community.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -149,6 +176,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles\simple_covid_simulation.dir\build.make CMakeFiles/simple_covid_simulation.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+person.obj: person.cpp.obj
+
+.PHONY : person.obj
+
+# target to build an object file
+person.cpp.obj:
+	$(MAKE) -f CMakeFiles\simple_covid_simulation.dir\build.make CMakeFiles/simple_covid_simulation.dir/person.cpp.obj
+.PHONY : person.cpp.obj
+
+person.i: person.cpp.i
+
+.PHONY : person.i
+
+# target to preprocess a source file
+person.cpp.i:
+	$(MAKE) -f CMakeFiles\simple_covid_simulation.dir\build.make CMakeFiles/simple_covid_simulation.dir/person.cpp.i
+.PHONY : person.cpp.i
+
+person.s: person.cpp.s
+
+.PHONY : person.s
+
+# target to generate assembly for a file
+person.cpp.s:
+	$(MAKE) -f CMakeFiles\simple_covid_simulation.dir\build.make CMakeFiles/simple_covid_simulation.dir/person.cpp.s
+.PHONY : person.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -158,9 +212,15 @@ help:
 	@echo ... rebuild_cache
 	@echo ... simple_covid_simulation
 	@echo ... edit_cache
+	@echo ... community.obj
+	@echo ... community.i
+	@echo ... community.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... person.obj
+	@echo ... person.i
+	@echo ... person.s
 .PHONY : help
 
 

@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "community.h"
 using namespace std;
 using namespace sf;
 
@@ -13,7 +14,7 @@ bool locationAllowedRight(Shape& shape);
 
 int main()
 {
-    // create the window
+// create the window
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window", Style::Close);
 //  width(x): 800
 //  height(y): 600
@@ -106,6 +107,8 @@ int main()
         // end the current frame
         window.display();
     }
+//    community test;
+//    test.run();
 
     return 0;
 }

@@ -3,7 +3,7 @@ project(simple_covid_simulation)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(simple_covid_simulation main.cpp)
+add_executable(simple_covid_simulation main.cpp person.cpp person.h community.cpp community.h)
 
 include_directories(c:/SFML/include)
 

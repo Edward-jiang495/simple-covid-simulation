@@ -84,7 +84,19 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/18502/Desktop/simple-covid-simulation/community.cpp">
+			<Option target="simple_covid_simulation"/>
+		</Unit>
+		<Unit filename="C:/Users/18502/Desktop/simple-covid-simulation/community.h">
+			<Option target="simple_covid_simulation"/>
+		</Unit>
 		<Unit filename="C:/Users/18502/Desktop/simple-covid-simulation/main.cpp">
+			<Option target="simple_covid_simulation"/>
+		</Unit>
+		<Unit filename="C:/Users/18502/Desktop/simple-covid-simulation/person.cpp">
+			<Option target="simple_covid_simulation"/>
+		</Unit>
+		<Unit filename="C:/Users/18502/Desktop/simple-covid-simulation/person.h">
 			<Option target="simple_covid_simulation"/>
 		</Unit>
 		<Unit filename="C:/Users/18502/Desktop/simple-covid-simulation/CMakeLists.txt">

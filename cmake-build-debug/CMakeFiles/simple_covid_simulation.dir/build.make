@@ -70,14 +70,46 @@ CMakeFiles/simple_covid_simulation.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simple_covid_simulation.dir/main.cpp.s"
 	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\18502\Desktop\simple-covid-simulation\main.cpp -o CMakeFiles\simple_covid_simulation.dir\main.cpp.s
 
+CMakeFiles/simple_covid_simulation.dir/person.cpp.obj: CMakeFiles/simple_covid_simulation.dir/flags.make
+CMakeFiles/simple_covid_simulation.dir/person.cpp.obj: CMakeFiles/simple_covid_simulation.dir/includes_CXX.rsp
+CMakeFiles/simple_covid_simulation.dir/person.cpp.obj: ../person.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\18502\Desktop\simple-covid-simulation\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/simple_covid_simulation.dir/person.cpp.obj"
+	C:\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\simple_covid_simulation.dir\person.cpp.obj -c C:\Users\18502\Desktop\simple-covid-simulation\person.cpp
+
+CMakeFiles/simple_covid_simulation.dir/person.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simple_covid_simulation.dir/person.cpp.i"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\18502\Desktop\simple-covid-simulation\person.cpp > CMakeFiles\simple_covid_simulation.dir\person.cpp.i
+
+CMakeFiles/simple_covid_simulation.dir/person.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simple_covid_simulation.dir/person.cpp.s"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\18502\Desktop\simple-covid-simulation\person.cpp -o CMakeFiles\simple_covid_simulation.dir\person.cpp.s
+
+CMakeFiles/simple_covid_simulation.dir/community.cpp.obj: CMakeFiles/simple_covid_simulation.dir/flags.make
+CMakeFiles/simple_covid_simulation.dir/community.cpp.obj: CMakeFiles/simple_covid_simulation.dir/includes_CXX.rsp
+CMakeFiles/simple_covid_simulation.dir/community.cpp.obj: ../community.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\18502\Desktop\simple-covid-simulation\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/simple_covid_simulation.dir/community.cpp.obj"
+	C:\mingw64\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\simple_covid_simulation.dir\community.cpp.obj -c C:\Users\18502\Desktop\simple-covid-simulation\community.cpp
+
+CMakeFiles/simple_covid_simulation.dir/community.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simple_covid_simulation.dir/community.cpp.i"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\18502\Desktop\simple-covid-simulation\community.cpp > CMakeFiles\simple_covid_simulation.dir\community.cpp.i
+
+CMakeFiles/simple_covid_simulation.dir/community.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simple_covid_simulation.dir/community.cpp.s"
+	C:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\18502\Desktop\simple-covid-simulation\community.cpp -o CMakeFiles\simple_covid_simulation.dir\community.cpp.s
+
 # Object files for target simple_covid_simulation
 simple_covid_simulation_OBJECTS = \
-"CMakeFiles/simple_covid_simulation.dir/main.cpp.obj"
+"CMakeFiles/simple_covid_simulation.dir/main.cpp.obj" \
+"CMakeFiles/simple_covid_simulation.dir/person.cpp.obj" \
+"CMakeFiles/simple_covid_simulation.dir/community.cpp.obj"
 
 # External object files for target simple_covid_simulation
 simple_covid_simulation_EXTERNAL_OBJECTS =
 
 simple_covid_simulation.exe: CMakeFiles/simple_covid_simulation.dir/main.cpp.obj
+simple_covid_simulation.exe: CMakeFiles/simple_covid_simulation.dir/person.cpp.obj
+simple_covid_simulation.exe: CMakeFiles/simple_covid_simulation.dir/community.cpp.obj
 simple_covid_simulation.exe: CMakeFiles/simple_covid_simulation.dir/build.make
 simple_covid_simulation.exe: C:/SFML/lib/libsfml-system-d.a
 simple_covid_simulation.exe: C:/SFML/lib/libsfml-window-d.a
@@ -87,7 +119,7 @@ simple_covid_simulation.exe: C:/SFML/lib/libsfml-audio-d.a
 simple_covid_simulation.exe: CMakeFiles/simple_covid_simulation.dir/linklibs.rsp
 simple_covid_simulation.exe: CMakeFiles/simple_covid_simulation.dir/objects1.rsp
 simple_covid_simulation.exe: CMakeFiles/simple_covid_simulation.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\18502\Desktop\simple-covid-simulation\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable simple_covid_simulation.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\18502\Desktop\simple-covid-simulation\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable simple_covid_simulation.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\simple_covid_simulation.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
