@@ -676,21 +676,19 @@ SFML/Config.hpp
 
 C:/SFML/include/SFML/Window/WindowStyle.hpp
 
+C:/Users/18502/Desktop/simple-covid-simulation/community.cpp
+community.h
+C:/Users/18502/Desktop/simple-covid-simulation/community.h
+
 C:/Users/18502/Desktop/simple-covid-simulation/community.h
 SFML/Graphics.hpp
 -
 iostream
+-
+random
 -
 person.h
 C:/Users/18502/Desktop/simple-covid-simulation/person.h
-
-C:/Users/18502/Desktop/simple-covid-simulation/main.cpp
-SFML/Graphics.hpp
--
-iostream
--
-community.h
-C:/Users/18502/Desktop/simple-covid-simulation/community.h
 
 C:/Users/18502/Desktop/simple-covid-simulation/person.h
 SFML/Graphics.hpp

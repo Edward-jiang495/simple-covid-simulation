@@ -104,6 +104,13 @@ void person::setStatus(person::disease_status s){
     status=s;
 }
 
+CircleShape& person::getShape(){
+    return human;
+}
+void person::setPosition(float x,float y){
+    human.setPosition(Vector2f(x,y));
+}
+
 void person:: move(){
     //move the people around
     int ran = rand()%4;

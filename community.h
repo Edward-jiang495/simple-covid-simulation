@@ -3,6 +3,7 @@
 //
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <random>
 #include "person.h"
 using namespace std;
 using namespace sf;
@@ -15,6 +16,7 @@ private:
     int size;
     int days;
     bool lockDown;
+    vector<person> peoples;
     RenderWindow window;
 public:
     community();

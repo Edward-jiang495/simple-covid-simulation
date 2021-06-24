@@ -9,6 +9,21 @@ community::community(){
     days=0;
     size =50;
     lockDown=false;
+    std::default_random_engine generator;
+    std::uniform_real_distribution<float> distributionX(100.0,700.0);
+    //generate random number for x coordinates
+    std::uniform_real_distribution<float> distributionY(100.0,500.0);
+    //generate random number for y coordinates
+
+    for(int i=0;i<size;i++){
+        person p;
+        float x = distributionX(generator);
+        float y = distributionY(generator);
+        p.setPosition(x,y);
+        peoples.push_back(p);
+    }
+
+
 
 }
 community::community(int s, bool l){
@@ -16,6 +31,18 @@ community::community(int s, bool l){
     size =s;
     lockDown= l;
     days=0;
+    std::default_random_engine generator;
+    std::uniform_real_distribution<float> distributionX(100.0,700.0);
+    //generate random number for x coordinates
+    std::uniform_real_distribution<float> distributionY(100.0,500.0);
+    //generate random number for y coordinates
+    for(int i=0;i<size;i++){
+        person p;
+        float x = distributionX(generator);
+        float y = distributionY(generator);
+        p.setPosition(x,y);
+        peoples.push_back(p);
+    }
 
 }
 
@@ -42,11 +69,13 @@ void community::run(){
                 window.close();
 
         }
-        window.clear();
-
         // draw everything here...
+        window.clear();
         window.draw(border);
-        // end the current frame
+        for(int i=0;i<size;i++){
+            window.draw(peoples.at(i).getShape());
+        }
         window.display();
+
     }
 }

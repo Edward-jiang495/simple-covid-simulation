@@ -22,6 +22,8 @@ public:
     disease_status getStatus();
     void setStatus(disease_status);
     void move();
+    CircleShape& getShape();
+    void setPosition(float,float);
 private:
     int infectedPeriod;
     bool mask;
