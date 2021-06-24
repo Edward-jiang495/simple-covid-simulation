@@ -3,7 +3,7 @@
 #include "community.h"
 using namespace std;
 using namespace sf;
-
+//here is my covid simulation project
 int main()
 {
 
