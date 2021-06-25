@@ -113,7 +113,6 @@ int person::getDirection(){
 
 void person::setDirection(int d){
     //use setdirection with engine in community for randomness
-
     direction=d;
 }
 CircleShape& person::getShape(){
@@ -127,9 +126,49 @@ void person:: move(float xBoundLeft,float xBoundRight, float yBoundUp, float yBo
     //the four parameters here are the x and y boundary
     //this function moves people around
     //direction diagram
-    //    1
-    //0       2
-    //    3
+    //4   0   5
+    //1       2
+    //6   3   7
+    //0,1,2,3 represents up left right down
+    //people can move up down left right and diagonally
+    if(direction<4){
+
+    }
+    Vector2f pos = human.getPosition();
+    cout<<"Direction: "<<direction<<endl;
+
+    if(direction==4 && pos.x> xBoundLeft && pos.y > yBoundUp){
+        human.move(-1.2f,-1.2f);
+        //move left up
+        return;
+    }
+    else if(direction==4 && pos.x> xBoundLeft && pos.y <= yBoundUp ){
+        //we touch the upper bound without touching the left bound
+        direction=5;
+        //we change direction from left up to left down
+        human.move(-1.2f,1.2f);
+        //move left down
+        return ;
+    }
+    else if(direction ==4 && pos.x <= xBoundLeft && pos.y >yBoundUp){
+        //we touch the left bound without touching the upper bound
+        direction= 2;
+        human.move(1.2f,-1.2f);
+        //move left up
+        return ;
+    }
+    else if(direction==4){
+        //we touch the very left up corner
+        direction = 7;
+        human.move(1.2f,1.2f);
+        return;
+    }
+
+
+
+
+}
+void person:: moveWayward(float xBoundLeft,float xBoundRight, float yBoundUp, float yBoundDown){
     Vector2f pos = human.getPosition();
     cout<<"Direction: "<<direction<<endl;
     if(direction==0 && pos.x>xBoundLeft){
@@ -170,9 +209,7 @@ void person:: move(float xBoundLeft,float xBoundRight, float yBoundUp, float yBo
         human.move(0.0f,-1.2f);
         //bounce up
     }
-
 }
-
 
 void person::changeDirection(){
     //abondoned

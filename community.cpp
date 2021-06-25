@@ -75,7 +75,7 @@ void community::run(){
         window.clear();
         window.draw(border);
         for(int i=0;i<size;i++){
-            peoples.at(i).move(50,750,50,550);
+            peoples.at(i).moveWayward(50,750,50,550);
             window.draw(peoples.at(i).getShape());
         }
         window.display();
