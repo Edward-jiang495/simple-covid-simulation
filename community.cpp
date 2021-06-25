@@ -7,19 +7,21 @@ community::community(){
     //initialize population here
     //we maybe should start with 1 infected patient
     days=0;
-    size =50;
+    size =30;
     lockDown=false;
-    std::default_random_engine generator;
+    int seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine generator(seed);
     std::uniform_real_distribution<float> distributionX(100.0,700.0);
     //generate random number for x coordinates
     std::uniform_real_distribution<float> distributionY(100.0,500.0);
     //generate random number for y coordinates
-
+    std::uniform_int_distribution<int> dir(0,3);
     for(int i=0;i<size;i++){
         person p;
         float x = distributionX(generator);
         float y = distributionY(generator);
         p.setPosition(x,y);
+        p.setDirection(dir(generator));
         peoples.push_back(p);
     }
 
@@ -73,6 +75,7 @@ void community::run(){
         window.clear();
         window.draw(border);
         for(int i=0;i<size;i++){
+            peoples.at(i).move(50,750,50,550);
             window.draw(peoples.at(i).getShape());
         }
         window.display();

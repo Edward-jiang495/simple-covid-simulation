@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <random>
+#include <chrono>
 #include <cstdlib>
 #include <ctime>
 using namespace std;
@@ -21,7 +22,10 @@ public:
     person& operator =(const person&);
     disease_status getStatus();
     void setStatus(disease_status);
-    void move();
+    int getDirection();
+    void changeDirection();
+    void setDirection(int);
+    void move(float,float,float,float);
     CircleShape& getShape();
     void setPosition(float,float);
 private:
@@ -30,6 +34,7 @@ private:
     bool medicalCondition;
     bool socialDistance;
     int age;
+    int direction;
     disease_status status;
     CircleShape human;
 };
