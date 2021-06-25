@@ -29,6 +29,7 @@ public:
     CircleShape& getShape();
     void setPosition(float,float);
     void moveWayward(float,float,float,float);
+    void moveDiagonally(float,float,float,float);
 private:
     int infectedPeriod;
     bool mask;

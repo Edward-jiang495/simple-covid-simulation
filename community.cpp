@@ -15,7 +15,7 @@ community::community(){
     //generate random number for x coordinates
     std::uniform_real_distribution<float> distributionY(100.0,500.0);
     //generate random number for y coordinates
-    std::uniform_int_distribution<int> dir(0,3);
+    std::uniform_int_distribution<int> dir(0,7);
     for(int i=0;i<size;i++){
         person p;
         float x = distributionX(generator);
@@ -75,7 +75,7 @@ void community::run(){
         window.clear();
         window.draw(border);
         for(int i=0;i<size;i++){
-            peoples.at(i).moveWayward(50,750,50,550);
+            peoples.at(i).move(50,750,50,550);
             window.draw(peoples.at(i).getShape());
         }
         window.display();
