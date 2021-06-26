@@ -106,6 +106,20 @@ person::disease_status person:: getStatus(){
 }
 void person::setStatus(person::disease_status s){
     status=s;
+    if(status==infected){
+        human.setFillColor(Color::Red);
+    }
+    else if(status== vulnerable){
+        human.setFillColor(Color::Blue);
+    }
+    else if(status== dead){
+        Color color(128,128,128);
+        //this is gray
+        human.setFillColor(color);
+    }
+    else if(status==immune){
+        human.setFillColor(Color::Green);
+    }
 }
 int person::getDirection(){
     return direction;
@@ -142,7 +156,7 @@ void person:: move(float xBoundLeft,float xBoundRight, float yBoundUp, float yBo
 }
 void person:: moveWayward(float xBoundLeft,float xBoundRight, float yBoundUp, float yBoundDown){
     Vector2f pos = human.getPosition();
-    cout<<"Direction: "<<direction<<endl;
+//    cout<<"Direction: "<<direction<<endl;
     if(direction==0 && pos.x>xBoundLeft){
         human.move(-1.2f,0.0f);
         //move left
@@ -299,6 +313,26 @@ void person:: moveDiagonally(float xBoundLeft,float xBoundRight, float yBoundUp,
         cout<<"Invalid direction detected"<<endl;
     }
 
+}
+Vector2f person::getPosition(){
+    return human.getPosition();
+}
+void person::infectOther(person& p){
+    //each dot(human) radius is 6
+    //so we reduce the function calls getRadius
+    //and use 6 directly
+    //the sum of two circle with radius 6 is 12
+    if(status==infected){
+        Vector2f pos1 = human.getPosition();
+        Vector2f pos2 = p.human.getPosition();
+        float dx = pos1.x - pos2.x;
+        float dy = pos1.y - pos2.y;
+        float dis = sqrt(dx*dx + dy*dy);
+        if(dis< 12){
+            p.human.setFillColor(Color::Red);
+            p.status =infected;
+        }
+    }
 }
 void person::changeDirection(){
     //abondoned

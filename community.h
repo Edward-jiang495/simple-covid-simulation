@@ -18,6 +18,11 @@ private:
     bool lockDown;
     vector<person> peoples;
     RenderWindow window;
+    int infectedNum;
+    int vulnerableNum;
+    int deathNum;
+    int recoveredNum;
+    //vaccinated shares the same status with recovered
 public:
     community();
     community(int,bool);

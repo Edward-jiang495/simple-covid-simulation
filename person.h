@@ -7,6 +7,7 @@
 #include <chrono>
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 using namespace std;
 using namespace sf;
 #ifndef SIMPLE_COVID_SIMULATION_PERSON_H
@@ -30,6 +31,8 @@ public:
     void setPosition(float,float);
     void moveWayward(float,float,float,float);
     void moveDiagonally(float,float,float,float);
+    void infectOther(person&);
+    Vector2f getPosition();
 private:
     int infectedPeriod;
     bool mask;
