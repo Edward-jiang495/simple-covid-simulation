@@ -145,7 +145,7 @@ void person:: move(float xBoundLeft,float xBoundRight, float yBoundUp, float yBo
     //6   3   7
     //0,1,2,3 represents up left right down
     //people can move up down left right and diagonally
-    cout<<"Direction: "<<direction<<endl;
+//    cout<<"Direction: "<<direction<<endl;
     if(direction<4){
         moveWayward(xBoundLeft,xBoundRight,yBoundUp,yBoundDown);
     }
@@ -156,43 +156,43 @@ void person:: move(float xBoundLeft,float xBoundRight, float yBoundUp, float yBo
 }
 void person:: moveWayward(float xBoundLeft,float xBoundRight, float yBoundUp, float yBoundDown){
     Vector2f pos = human.getPosition();
-//    cout<<"Direction: "<<direction<<endl;
+    float speed = 0.1f;
     if(direction==0 && pos.x>xBoundLeft){
-        human.move(-1.2f,0.0f);
+        human.move(-speed,0.0f);
         //move left
     }
     else if(direction==0 && pos.x<=xBoundLeft){
         direction =2;
-        human.move(1.2f,0.0f);
+        human.move(speed,0.0f);
         //making the people "bounce" from the boundries
     }
 
     else if(direction ==1 && pos.y>yBoundUp){
-        human.move(0.0f,-1.2f);
+        human.move(0.0f,-speed);
         //move up
     }
     else if(direction==1 && pos.y<=yBoundUp){
         direction =3;
-        human.move(0.0f,1.2f);
+        human.move(0.0f,speed);
         //bounce down
     }
 
     else if(direction ==2 && pos.x<xBoundRight){
-        human.move(1.2f,0.0f);
+        human.move(speed,0.0f);
         //move right
     }
     else if(direction ==2 && pos.x>=xBoundRight){
         direction=0;
-        human.move(-1.2f,0.0f);
+        human.move(-speed,0.0f);
         //bounce left
     }
     else if(direction ==3 && pos.y<yBoundDown){
-        human.move(0.0f,1.2f);
+        human.move(0.0f,speed);
         //move down
     }
     else if(direction==3 && pos.y>= yBoundDown){
         direction=1;
-        human.move(0.0f,-1.2f);
+        human.move(0.0f,-speed);
         //bounce up
     }
 }
@@ -200,10 +200,11 @@ void person:: moveWayward(float xBoundLeft,float xBoundRight, float yBoundUp, fl
 void person:: moveDiagonally(float xBoundLeft,float xBoundRight, float yBoundUp, float yBoundDown){
     Vector2f pos = human.getPosition();
 
+    float speed =0.1f;
     //this function moves people left up
     if(direction==4){
         if(pos.x> xBoundLeft && pos.y > yBoundUp){
-            human.move(-1.2f,-1.2f);
+            human.move(-speed,-speed);
             //move left up
             return;
         }
@@ -211,21 +212,21 @@ void person:: moveDiagonally(float xBoundLeft,float xBoundRight, float yBoundUp,
             //we touch the upper bound without touching the left bound
             direction=6;
             //we change direction from left up to left down
-            human.move(-1.2f,1.2f);
+            human.move(-speed,speed);
             //move left down
             return ;
         }
         else if(pos.x <= xBoundLeft && pos.y >yBoundUp){
             //we touch the left bound without touching the upper bound
             direction= 5;
-            human.move(1.2f,-1.2f);
+            human.move(speed,-speed);
             //move left up
             return ;
         }
         else{
             //we touch the very left up corner
             direction = 7;
-            human.move(1.2f,1.2f);
+            human.move(speed,speed);
             return;
         }
     }
@@ -233,27 +234,27 @@ void person:: moveDiagonally(float xBoundLeft,float xBoundRight, float yBoundUp,
     //this moves right up
     else if(direction==5){
         if(pos.x < xBoundRight && pos.y > yBoundUp){
-            human.move(1.2f,-1.2f);
+            human.move(speed,-speed);
             return;
         }
         else if(pos.x < xBoundRight && pos.y <=yBoundUp){
             //we touch the up boundary without touching the right one
             direction=7;
-            human.move(1.2,1.2);
+            human.move(speed,speed);
             //move right down
             return;
         }
         else if(pos.x >=xBoundRight && pos.y > yBoundUp){
             //we touch the right boundary with touching the up one
             direction =4;
-            human.move(-1.2,-1.2);
+            human.move(-speed,-speed);
             //move left up
             return;
         }
         else{
             //we touch the right up corner
             direction =6;
-            human.move(-1.2,1.2);
+            human.move(-speed,speed);
             //move left down
             return;
         }
@@ -262,50 +263,50 @@ void person:: moveDiagonally(float xBoundLeft,float xBoundRight, float yBoundUp,
     //this function moves left down
     else if(direction==6){
         if(pos.x > xBoundLeft && pos.y < yBoundDown){
-            human.move(-1.2,1.2);
+            human.move(-speed,speed);
             return ;
         }
         else if(pos.x > xBoundLeft && pos.y >=yBoundDown){
             //we touch the lower boundary without touching the left one
             direction =4;
-            human.move(-1.2,-1.2);
+            human.move(-speed,-speed);
             return;
         }
         else if(pos.x <=xBoundLeft && pos.y <yBoundDown){
             //we touch the left boundary without touching the lower one
             direction =7;
-            human.move(1.2,1.2);
+            human.move(speed,speed);
             return;
         }
         else{
             //we touch the left lower corner
             direction =5;
-            human.move(1.2,-1.2);
+            human.move(speed,-speed);
         }
     }
 
     //this is for moving right down
     else if(direction==7){
         if(pos.x < xBoundRight && pos.y < yBoundDown){
-            human.move(1.2,1.2);
+            human.move(speed,speed);
             return;
         }
         else if(pos.x <xBoundRight && pos.y >= yBoundDown){
             //we touch the lower bound without touching the right one
             direction = 5;
-            human.move(1.2,-1.2);
+            human.move(speed,-speed);
             return;
         }
         else if(pos.x >= xBoundRight && pos.y <=yBoundDown){
             //we touch the right bound without touching the lower one
             direction = 6;
-            human.move(-1.2,1.2);
+            human.move(-speed,speed);
             return;
         }
         else{
             //we touch the right lower corner
             direction =4;
-            human.move(-1.2,-1.2);
+            human.move(-speed,-speed);
             return;
         }
     }

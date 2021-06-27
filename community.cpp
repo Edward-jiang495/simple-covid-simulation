@@ -6,12 +6,13 @@
 community::community(){
     //initialize population here
     //we maybe should start with 1 infected patient
-    days=0;
+    days=1;
+    //start on day 1
     size =30;
     lockDown=false;
     int seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
-    std::uniform_real_distribution<float> distributionX(100.0,700.0);
+    std::uniform_real_distribution<float> distributionX(200.0,800.0);
     //generate random number for x coordinates
     std::uniform_real_distribution<float> distributionY(100.0,500.0);
     //generate random number for y coordinates
@@ -38,10 +39,11 @@ community::community(int s, bool l){
     //initialize population here
     size =s;
     lockDown= l;
-    days=0;
+    days=1;
+    //start on day 1
     int seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
-    std::uniform_real_distribution<float> distributionX(100.0,700.0);
+    std::uniform_real_distribution<float> distributionX(200.0,800.0);
     //generate random number for x coordinates
     std::uniform_real_distribution<float> distributionY(100.0,500.0);
     //generate random number for y coordinates
@@ -64,7 +66,7 @@ community::community(int s, bool l){
 
 void community::run(){
     window.close();
-    window.create(sf::VideoMode(800, 600), "Covid Community Simulation", Style::Close);
+    window.create(sf::VideoMode(1000, 600), "Covid Community Simulation", Style::Close);
    //make person move here
 
     RectangleShape border(Vector2f(700.0f,500.0f));
@@ -72,7 +74,7 @@ void community::run(){
     border.setOutlineThickness(3.0f);
     border.setOutlineColor(Color::White);
     border.setOrigin(Vector2f(350.0f,250.0f));
-    border.setPosition(Vector2f(400.0f,300.0f));
+    border.setPosition(Vector2f(500.0f,300.0f));
     //this rectangle shape is designed to be a border that people cannot move out
 
     sf::Font font;
@@ -83,34 +85,45 @@ void community::run(){
     }
 
     //creating the display string
+    //this is the number of day passed
+    Text day;
+    day.setString("Day: " + to_string(days));
+    day.setFont(font);
+    day.setStyle(sf::Text::Regular);
+    day.setCharacterSize(24);
+//    day.setPosition(0,0);
+
     Text vulNum;
     vulNum.setString("Vulnerable: " + to_string(vulnerableNum));
     vulNum.setFont(font);
     vulNum.setStyle(sf::Text::Regular);
     vulNum.setCharacterSize(24);
+    vulNum.setPosition(150,0);
 
     Text infNum;
-    infNum.setPosition(200,0);
+    infNum.setPosition(400,0);
     infNum.setString("Infected: " + to_string(infectedNum));
     infNum.setFont(font);
     infNum.setStyle(sf::Text::Regular);
     infNum.setCharacterSize(24);
 
     Text deaNum;
-    deaNum.setPosition(400,0);
+    deaNum.setPosition(600,0);
     deaNum.setString("Death: " + to_string(deathNum));
     deaNum.setFont(font);
     deaNum.setStyle(sf::Text::Regular);
     deaNum.setCharacterSize(24);
 
     Text recNum;
-    recNum.setPosition(600,0);
+    recNum.setPosition(800,0);
     recNum.setString("Recovered: " + to_string(recoveredNum));
     recNum.setFont(font);
     recNum.setStyle(sf::Text::Regular);
     recNum.setCharacterSize(24);
 
 
+    Clock clock;
+    //begin our timer
     while (window.isOpen()) {
 // check all the window's events that were triggered since the last iteration of the loop
         Event event{};
@@ -124,13 +137,14 @@ void community::run(){
         // draw everything here...
         window.clear();
 
+        window.draw(day);
         window.draw(border);
         window.draw(vulNum);
         window.draw(infNum);
         window.draw(recNum);
         window.draw(deaNum);
         for(int i=0;i<size;i++){
-            peoples.at(i).move(50,750,50,550);
+            peoples.at(i).move(150,850,50,550);
             for(int j=0;j<size;j++){
                 if(j==i){
                     continue;
@@ -155,7 +169,15 @@ void community::run(){
             }
             window.draw(peoples.at(i).getShape());
         }
+        Time time = clock.getElapsedTime();
+        float sec  = time.asSeconds();
+        if(sec > 2.0f){
+            days++;
+            day.setString("Day: " + to_string(days));
+            clock.restart();
+        }
         window.display();
+
 
     }
 }
