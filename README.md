@@ -28,11 +28,9 @@ Do not be fooled by these numbers. The reason that the transmission rate is low 
 
 P(Infection with no rules): 20% (your sneezes and cough can spread far away)
 
-P(Infection with one with masks, one without, no social distancing): 10%
+P(Infection with one with masks, one without): 10%
 
-P(Infection with both wearing masks, no social distancing): 5% (covid can still spread if one does not wash their hands often)
-
-P(Lockdown assuming all people are wearing masks, social distancing, and controlling their moves): 5% 
+P(Infection with both wearing masks): 5% (covid can still spread if one does not wash their hands often)
 
 Optional: adding a public area where people moves frequently, like stores
 
