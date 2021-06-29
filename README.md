@@ -24,15 +24,13 @@ These information come from this page:https://www.doh.wa.gov/Portals/1/Documents
 
 Note that these stats are only for simulation only. It does not represent covid in the real world.
 
-P(Infection with no rules): 80% (your sneezes and cough can spread far away)
+Do not be fooled by these numbers. The reason that the transmission rate is low here is because I also take account of time. The longer time one spends with another, the higher chance one will have to catch Covid-19.
 
-P(Infection with one with masks, one without, no social distancing): 50%
+P(Infection with no rules): 20% (your sneezes and cough can spread far away)
 
-P(Infection with one with masks, one without with social distancing): 30% 
+P(Infection with one with masks, one without, no social distancing): 10%
 
-P(Infection with both wearing masks, no social distancing): 20% (covid can still spread if one does not wash their hands often)
-
-P(Infection with both wearing masks, and social distancing): 5%
+P(Infection with both wearing masks, no social distancing): 5% (covid can still spread if one does not wash their hands often)
 
 P(Lockdown assuming all people are wearing masks, social distancing, and controlling their moves): 5% 
 
