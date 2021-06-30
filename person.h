@@ -18,7 +18,7 @@ class person {
 public:
     enum disease_status {vulnerable, infected,dead,immune};
     person();
-    person(bool,bool,disease_status);
+    person(bool,bool,int);
     person(const person&);
     person& operator =(const person&);
     disease_status getStatus();
@@ -31,17 +31,22 @@ public:
     void setPosition(float,float);
     void moveWayward(float,float,float,float);
     void moveDiagonally(float,float,float,float);
-    void infectOther(person&);
+    bool infectOther(person&);
+    bool hasMask();
+    void setMask(bool);
     Vector2f getPosition();
+    bool passAway();
+    bool recover();
+
 private:
     int infectedPeriod;
     bool mask;
     bool medicalCondition;
-    bool socialDistance;
     int age;
     int direction;
     disease_status status;
     CircleShape human;
+    float speed =0.07f;
 };
 
 

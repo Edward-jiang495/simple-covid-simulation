@@ -9,13 +9,15 @@ community::community(){
     days=1;
     //start on day 1
     size =30;
-    lockDown=false;
+    width=1000;
+    height=600;
     int seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
-    std::uniform_real_distribution<float> distributionX(200.0,800.0);
+    std::uniform_real_distribution<float> distributionX(200.0,width-200);
     //generate random number for x coordinates
-    std::uniform_real_distribution<float> distributionY(100.0,500.0);
+    std::uniform_real_distribution<float> distributionY(100.0,height-100);
     //generate random number for y coordinates
+    //generating random number for people ages
     std::uniform_int_distribution<int> dir(0,7);
     for(int i=0;i<size;i++){
         person p;
@@ -24,6 +26,7 @@ community::community(){
         p.setPosition(x,y);
         p.setDirection(dir(generator));
         peoples.push_back(p);
+
     }
     peoples.at(0).setStatus(person::disease_status::infected);
     //we select the zeroth index patient as the
@@ -34,27 +37,46 @@ community::community(){
     recoveredNum =0;
 
 
+
 }
-community::community(int s, bool l){
+community::community(int s){
     //initialize population here
     size =s;
-    lockDown= l;
     days=1;
     //start on day 1
+    width=1000;
+    height=600;
     int seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
-    std::uniform_real_distribution<float> distributionX(200.0,800.0);
+    std::uniform_real_distribution<float> distributionX(200.0,width-200);
     //generate random number for x coordinates
-    std::uniform_real_distribution<float> distributionY(100.0,500.0);
+    std::uniform_real_distribution<float> distributionY(100.0,height-100);
     //generate random number for y coordinates
     std::uniform_int_distribution<int> dir(0,7);
+    std::uniform_int_distribution<int> distributionPreCond(0,100);
+    //generate random number for people with or without preexisting condition
+    //roughly 27% non-elder people in the US has preexisting conditions
+    //source: https://www.kff.org/policy-watch/pre-existing-conditions-what-are-they-and-how-many-people-have-them/#:~:text=KFF%20has%20estimated%20that%20in,ACA%20individual%20health%20insurance%20market.
+    std::uniform_int_distribution<int> distributionAge(0,62);
+    std::uniform_int_distribution<int> masks(0,9);
+    bool hasMask=false;
+    bool hasCond =false;
     for(int i=0;i<size;i++){
-        person p;
+        if(distributionPreCond(generator) <27){
+            hasCond=true;
+        }
+//        if(masks(generator) < 9){
+            hasMask=true;
+//        }
+        int age = distributionAge(generator)+18;
+//        cout<<age<<" ";
+        person p(hasMask,hasCond,age);
         float x = distributionX(generator);
         float y = distributionY(generator);
         p.setPosition(x,y);
         p.setDirection(dir(generator));
         peoples.push_back(p);
+
     }
     peoples.at(0).setStatus(person::disease_status::infected);
     infectedNum=1;
@@ -66,15 +88,17 @@ community::community(int s, bool l){
 
 void community::run(){
     window.close();
-    window.create(sf::VideoMode(1000, 600), "Covid Community Simulation", Style::Close);
+    window.create(sf::VideoMode(width, height), "Covid Community Simulation", Style::Close);
    //make person move here
 
-    RectangleShape border(Vector2f(700.0f,500.0f));
+    float borderWidth = width-300.0f;
+    float borderHeight = height-100.0f;
+    RectangleShape border(Vector2f(borderWidth,borderHeight));
     border.setFillColor(Color::Black);
     border.setOutlineThickness(3.0f);
     border.setOutlineColor(Color::White);
-    border.setOrigin(Vector2f(350.0f,250.0f));
-    border.setPosition(Vector2f(500.0f,300.0f));
+    border.setOrigin(Vector2f(borderWidth/2,borderHeight/2));
+    border.setPosition(Vector2f(width/2,height/2));
     //this rectangle shape is designed to be a border that people cannot move out
 
     sf::Font font;
@@ -124,6 +148,7 @@ void community::run(){
 
     Clock clock;
     //begin our timer
+
     while (window.isOpen()) {
 // check all the window's events that were triggered since the last iteration of the loop
         Event event{};
@@ -143,39 +168,47 @@ void community::run(){
         window.draw(infNum);
         window.draw(recNum);
         window.draw(deaNum);
-        for(int i=0;i<size;i++){
-            peoples.at(i).move(150,850,50,550);
-            for(int j=0;j<size;j++){
-                if(j==i){
-                    continue;
-                    //cannot infect himself/herself
-                }
-                else if(peoples.at(i).getStatus() == person::disease_status::infected){
-                    Vector2f pos1 = peoples.at(i).getPosition();
-                    Vector2f pos2 = peoples.at(j).getPosition();
-                    float dx = pos1.x - pos2.x;
-                    float dy = pos1.y - pos2.y;
-                    float dis = sqrt(dx*dx + dy*dy);
-                    if(dis< 12 && peoples.at(j).getStatus() ==person::disease_status::vulnerable){
-                        //only transmit when one is infected and the other is vulnerable
-                        //and close enough
-                        peoples.at(j).setStatus(person::disease_status::infected);
-                        infectedNum++;
-                        vulnerableNum--;
-                        vulNum.setString("Vulnerable: " + to_string(vulnerableNum));
-                        infNum.setString("Infected: " + to_string(infectedNum));
-                    }
-                }
-            }
-            window.draw(peoples.at(i).getShape());
-        }
         Time time = clock.getElapsedTime();
         float sec  = time.asSeconds();
-        if(sec > 2.0f){
+        if(sec > 1.0f){
+            for(int k=0;k<peoples.size();k++){
+                bool dead = peoples.at(k).passAway();
+                if(dead){
+                    deathNum++;
+                    infectedNum--;
+                    infNum.setString("Infected: " + to_string(infectedNum));
+                    deaNum.setString("Death: " + to_string(deathNum));
+                }
+                window.draw(peoples.at(k).getShape());
+
+            }
             days++;
             day.setString("Day: " + to_string(days));
             clock.restart();
         }
+        for(int i=0;i<size;i++){
+            if(peoples.at(i).getStatus() != person::disease_status::dead){
+                peoples.at(i).move((width-borderWidth)/2,(width+borderWidth)/2,(height-borderHeight)/2,(height+borderHeight)/2);
+                for(int j=0;j<size;j++){
+                    if(j==i){
+                        continue;
+                        //cannot infect himself/herself
+                    }
+                    else if(peoples.at(i).getStatus() == person::disease_status::infected){
+                        bool infected = peoples.at(i).infectOther(peoples.at(j));
+                        if(infected){
+                            infectedNum++;
+                            vulnerableNum--;
+                            vulNum.setString("Vulnerable: " + to_string(vulnerableNum));
+                            infNum.setString("Infected: " + to_string(infectedNum));
+                        }
+                    }
+                }
+
+            }
+            window.draw(peoples.at(i).getShape());
+        }
+
         window.display();
 
 

@@ -7,7 +7,6 @@
 person:: person(){
     infectedPeriod = 0;
     mask = false;
-    socialDistance =  false;
 
     //direction here represents up down left right
     int seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -15,74 +14,42 @@ person:: person(){
 //    generator.seed(std::chrono::system_clock::now().time_since_epoch().count());
     direction =0;
     status = vulnerable;
+    human.setFillColor(Color::Blue);
     //roughly 27% non-elder people in the US has preexisting conditions
     //source: https://www.kff.org/policy-watch/pre-existing-conditions-what-are-they-and-how-many-people-have-them/#:~:text=KFF%20has%20estimated%20that%20in,ACA%20individual%20health%20insurance%20market.
     std::uniform_int_distribution<int> distributionPreCond(0,100);
     int ran = distributionPreCond(generator);
     medicalCondition = ran < 27;
     //we assume age is randomly distributed between 15 to 80
-    std::uniform_int_distribution<int> distributionAge(0,66);
-    age= distributionAge(generator)+15;
+    std::uniform_int_distribution<int> distributionAge(0,62);
+    age= distributionAge(generator)+18;
+
 
     human.setRadius(6.0f);
     human.setOrigin(Vector2f(6.0f,6.0f));
-    if(status == vulnerable){
-        human.setFillColor(Color::Blue);
-    }
-    else if(status == infected){
-        human.setFillColor(Color::Red);
-    }
-    else if(status == dead){
-        Color color(128,128,128);
-        //this is gray
-        human.setFillColor(color);
-    }else if(status == immune){
-        human.setFillColor(Color::Green);
-    }
-
 }
 
-person:: person(bool hasMask, bool isDistanced, disease_status sta){
+person:: person(bool hasMask, bool medCond, int a){
     infectedPeriod = 0;
     mask = hasMask;
-    socialDistance =  isDistanced;
     int seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
     direction = 0;
-    status = sta;
-    //direction here represents up down left right
 
-    //roughly 27% non-elder people in the US has preexisting conditions
-    //source: https://www.kff.org/policy-watch/pre-existing-conditions-what-are-they-and-how-many-people-have-them/#:~:text=KFF%20has%20estimated%20that%20in,ACA%20individual%20health%20insurance%20market.
-    std::uniform_int_distribution<int> distributionPreCond(0,100);
-    int ran = distributionPreCond(generator);
-    medicalCondition = ran < 27;
-    //we assume age is randomly distributed between 15 to 80
-    std::uniform_int_distribution<int> distributionAge(0,66);
-    age= distributionAge(generator)+15;
+    medicalCondition = medCond;
+    age= a;
 
     human.setRadius(6.0f);
     human.setOrigin(Vector2f(6.0f,6.0f));
-    if(status == vulnerable){
-        human.setFillColor(Color::Blue);
-    }
-    else if(status == infected){
-        human.setFillColor(Color::Red);
-    }
-    else if(status == dead){
-        Color color(128,128,128);
-        //this is gray
-        human.setFillColor(color);
-    }else if(status == immune){
-        human.setFillColor(Color::Green);
-    }
+    status = vulnerable;
+    human.setFillColor(Color::Blue);
+
 }
 
 
 person::person(const person& p){
     mask = p.mask;
     medicalCondition = p.medicalCondition;
-    socialDistance = p.socialDistance;
     age = p.age;
     direction= p.direction;
     status = p.status;
@@ -92,7 +59,6 @@ person::person(const person& p){
 person& person::operator =(const person& p){
     mask = p.mask;
     medicalCondition = p.medicalCondition;
-    socialDistance = p.socialDistance;
     direction= p.direction;
     age = p.age;
     status = p.status;
@@ -156,7 +122,7 @@ void person:: move(float xBoundLeft,float xBoundRight, float yBoundUp, float yBo
 }
 void person:: moveWayward(float xBoundLeft,float xBoundRight, float yBoundUp, float yBoundDown){
     Vector2f pos = human.getPosition();
-    float speed = 0.1f;
+
     if(direction==0 && pos.x>xBoundLeft){
         human.move(-speed,0.0f);
         //move left
@@ -200,7 +166,6 @@ void person:: moveWayward(float xBoundLeft,float xBoundRight, float yBoundUp, fl
 void person:: moveDiagonally(float xBoundLeft,float xBoundRight, float yBoundUp, float yBoundDown){
     Vector2f pos = human.getPosition();
 
-    float speed =0.1f;
     //this function moves people left up
     if(direction==4){
         if(pos.x> xBoundLeft && pos.y > yBoundUp){
@@ -318,33 +283,145 @@ void person:: moveDiagonally(float xBoundLeft,float xBoundRight, float yBoundUp,
 Vector2f person::getPosition(){
     return human.getPosition();
 }
-void person::infectOther(person& p){
+bool person::infectOther(person& p){
     //each dot(human) radius is 6
     //so we reduce the function calls getRadius
     //and use 6 directly
     //the sum of two circle with radius 6 is 12
-    if(status==infected){
-        Vector2f pos1 = human.getPosition();
-        Vector2f pos2 = p.human.getPosition();
-        float dx = pos1.x - pos2.x;
-        float dy = pos1.y - pos2.y;
-        float dis = sqrt(dx*dx + dy*dy);
-        if(dis< 12){
-            p.human.setFillColor(Color::Red);
-            p.status =infected;
-        }
-    }
-}
-void person::changeDirection(){
-    //abondoned
-    //not random enough
-    int pre = direction;
+    Vector2f pos1 = human.getPosition();
+    Vector2f pos2 = p.getPosition();
+    float dx = pos1.x - pos2.x;
+    float dy = pos1.y - pos2.y;
+    float dis = sqrt(dx*dx + dy*dy);
     int seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
-    std::uniform_int_distribution<int> distribution(0,3);
-    while(pre==direction){
-        direction =distribution(generator);
-    }
+    std::uniform_int_distribution<int> prob(0,19);
+    if(dis< 12 && dis>10 &&  p.getStatus() ==person::disease_status::vulnerable){
+        //only transmit when one is infected and the other is vulnerable
+        //and close enough
+        //I add the upper and lower constraint to prevent the collision
+        //detection to keep running even after collided
+        int chance =prob(generator);
+        if(mask && p.mask){
+            //if both wear masks, the chance of infection is 5%
+            //as covid can still spread if one does not wash their hands often
+            if(chance<1){
+                p.setStatus(person::disease_status::infected);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else if(mask || p.mask){
+            //if one has mask, the infection is 10%
 
-    //here we change the direction randomly to another one
+            if(chance <2){
+                p.setStatus(person::disease_status::infected);
+                return true;
+            }
+            else{
+                return false;
+            }
+
+        }
+
+        else if(!mask && !p.mask ){
+
+            //if both do not wear masks, the infection rate is high
+            if(chance <4 ){
+                p.setStatus(person::disease_status::infected);
+                return true;
+            }
+            else{
+                return false;
+            }
+
+        }
+        else {
+
+            return false;
+        }
+
+    }
+    return false;
+}
+
+bool person:: hasMask(){
+    return mask;
+}
+
+void person::setMask(bool var){
+    mask=var;
+}
+
+bool person::passAway(){
+    //this function simulate recovers or death
+    //based on randomness and age and preexisting condition
+    //naturally, a young man without preexisting condition has a low mortality
+    //while an old man with preexisting condition has a high mortality rate
+    if(status == person::disease_status::infected){
+        int seed = std::chrono::system_clock::now().time_since_epoch().count();
+        std::default_random_engine generator(seed);
+        std::uniform_int_distribution<int> prob(0,99);
+        //death rate is dependent on age and preexisting conditions
+        //survival rate also depends on age and preexisting condition
+        //here are the data for death rate https://www.worldometers.info/coronavirus/coronavirus-age-sex-demographics/
+        //i rounded the death rate to the nearest percent
+        //preexisting condition roughly increase mortality by 70%
+        int chance = prob(generator);
+        double deathRate=1;
+        if(medicalCondition){
+            deathRate=deathRate*1.7;
+        }
+        if(age <45){
+            //between 18 to 44, death rate is about 4%
+            deathRate=deathRate * 4;
+
+            if(chance <deathRate){
+                setStatus(person::disease_status::dead);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else if(age < 64){
+            //between 45 to 64
+            //death rate is about 22%
+            deathRate=deathRate*22;
+            if(chance <deathRate){
+                setStatus(person::disease_status::dead);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else if(age <75 ){
+            //65 to 75.
+            //death rate is about 25%
+            deathRate = deathRate*25;
+            if(chance <deathRate){
+                setStatus(person::disease_status::dead);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else if(age < 81){
+            //age 75 to 80 since a person max age is 80
+            //death rate is 49%
+            deathRate = deathRate*49;
+            if(chance <deathRate){
+                setStatus(person::disease_status::dead);
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+    return false;
 }

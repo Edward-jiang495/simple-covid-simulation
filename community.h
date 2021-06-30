@@ -15,7 +15,8 @@ class community {
 private:
     int size;
     int days;
-    bool lockDown;
+    float width;
+    float height;
     vector<person> peoples;
     RenderWindow window;
     int infectedNum;
@@ -25,7 +26,7 @@ private:
     //vaccinated shares the same status with recovered
 public:
     community();
-    community(int,bool);
+    community(int);
     void run();
     void move();
 
