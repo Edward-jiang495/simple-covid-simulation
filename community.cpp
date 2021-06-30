@@ -179,6 +179,17 @@ void community::run(){
                     infNum.setString("Infected: " + to_string(infectedNum));
                     deaNum.setString("Death: " + to_string(deathNum));
                 }
+
+                bool recovered = peoples.at(k).recover();
+                if(recovered){
+                    cout<<"HErE"<<" ";
+                    recoveredNum++;
+                    infectedNum--;
+                    infNum.setString("Infected: " + to_string(infectedNum));
+                    recNum.setString("Recovered: " + to_string(recoveredNum));
+                }
+
+
                 window.draw(peoples.at(k).getShape());
 
             }

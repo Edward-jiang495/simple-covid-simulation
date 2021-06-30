@@ -296,7 +296,7 @@ bool person::infectOther(person& p){
     int seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
     std::uniform_int_distribution<int> prob(0,19);
-    if(dis< 12 && dis>10 &&  p.getStatus() ==person::disease_status::vulnerable){
+    if(dis< 12 && dis>10 &&  p.getStatus() ==vulnerable){
         //only transmit when one is infected and the other is vulnerable
         //and close enough
         //I add the upper and lower constraint to prevent the collision
@@ -306,7 +306,7 @@ bool person::infectOther(person& p){
             //if both wear masks, the chance of infection is 5%
             //as covid can still spread if one does not wash their hands often
             if(chance<1){
-                p.setStatus(person::disease_status::infected);
+                p.setStatus(infected);
                 return true;
             }
             else{
@@ -317,7 +317,7 @@ bool person::infectOther(person& p){
             //if one has mask, the infection is 10%
 
             if(chance <2){
-                p.setStatus(person::disease_status::infected);
+                p.setStatus(infected);
                 return true;
             }
             else{
@@ -330,7 +330,7 @@ bool person::infectOther(person& p){
 
             //if both do not wear masks, the infection rate is high
             if(chance <4 ){
-                p.setStatus(person::disease_status::infected);
+                p.setStatus(infected);
                 return true;
             }
             else{
@@ -360,7 +360,7 @@ bool person::passAway(){
     //based on randomness and age and preexisting condition
     //naturally, a young man without preexisting condition has a low mortality
     //while an old man with preexisting condition has a high mortality rate
-    if(status == person::disease_status::infected){
+    if(status == infected){
         int seed = std::chrono::system_clock::now().time_since_epoch().count();
         std::default_random_engine generator(seed);
         std::uniform_int_distribution<int> prob(0,99);
@@ -379,7 +379,7 @@ bool person::passAway(){
             deathRate=deathRate * 4;
 
             if(chance <deathRate){
-                setStatus(person::disease_status::dead);
+                setStatus(dead);
                 return true;
             }
             else{
@@ -391,7 +391,7 @@ bool person::passAway(){
             //death rate is about 22%
             deathRate=deathRate*22;
             if(chance <deathRate){
-                setStatus(person::disease_status::dead);
+                setStatus(dead);
                 return true;
             }
             else{
@@ -403,7 +403,7 @@ bool person::passAway(){
             //death rate is about 25%
             deathRate = deathRate*25;
             if(chance <deathRate){
-                setStatus(person::disease_status::dead);
+                setStatus(dead);
                 return true;
             }
             else{
@@ -415,10 +415,89 @@ bool person::passAway(){
             //death rate is 49%
             deathRate = deathRate*49;
             if(chance <deathRate){
-                setStatus(person::disease_status::dead);
+                setStatus(dead);
                 return true;
             }
             else{
+                return false;
+            }
+        }
+    }
+    return false;
+}
+
+bool person::recover(){
+    //each day there is a chance that a person recover from covid
+    if(status == infected){
+        int seed = std::chrono::system_clock::now().time_since_epoch().count();
+        std::default_random_engine generator(seed);
+        std::uniform_int_distribution<int> prob(0,99);
+        //there are not a lot of resources about recovery rate
+        //but there seems to be a correlation that younger people have a higher recovery rate
+        //while older people have a lower recovery rate
+        int chance = prob(generator);
+        double recoveryRate=20;
+//        cout<<"CH "<<chance<<endl;
+        //we start at 20% recovery rate
+        //this is also the recovery rate for people 18-45
+        //we assume preexisting condition lowers the recovery rate
+        //by 70% like how death rate increases by 70% for people
+        //with preexisting conditions
+        if(medicalCondition){
+            recoveryRate = recoveryRate * 0.3;
+        }
+
+        if(age< 45){
+            //the recovery rate is about 20% for people 18-45 with no
+            //preexisting conditions
+            if(chance<recoveryRate){
+                setStatus(immune);
+                return true;
+            }
+            else{
+                //they did not recover and remain sick
+                return false;
+            }
+        }
+        else if(age <64){
+            //recovery rate is 10% for people 45-64
+            //halved
+            recoveryRate = recoveryRate/2;
+            if(chance<recoveryRate){
+                setStatus(immune);
+                return true;
+            }
+            else{
+                //they did not recover and remain sick
+                return false;
+            }
+        }
+        else if(age< 75){
+            recoveryRate= recoveryRate/4;
+            //recovery rate is about 5%
+            if(chance<recoveryRate){
+                setStatus(immune);
+                return true;
+            }
+            else{
+                //they did not recover and remain sick
+                return false;
+            }
+        }
+        else if(age< 81){
+            recoveryRate= recoveryRate/8;
+            if(recoveryRate<1){
+                recoveryRate=1;
+                //recovery rate could get to small for
+                //old people with preexisting conditions
+            }
+
+            if(chance<recoveryRate){
+                setStatus(immune);
+                return true;
+            }
+            else{
+                //they did not recover and remain sick
                 return false;
             }
         }
