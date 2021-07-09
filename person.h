@@ -1,6 +1,3 @@
-//
-// Created by 18502 on 6/15/2021.
-//
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <random>
@@ -24,7 +21,6 @@ public:
     disease_status getStatus();
     void setStatus(disease_status);
     int getDirection();
-    void changeDirection();
     void setDirection(int);
     void move(float,float,float,float);
     CircleShape& getShape();
@@ -35,8 +31,8 @@ public:
     bool hasMask();
     void setMask(bool);
     Vector2f getPosition();
-    bool passAway();
-    bool recover();
+    bool passAway(int);
+    bool recover(int);
 
 private:
     int infectedPeriod;

@@ -36,10 +36,8 @@ community::community(){
     deathNum = 0;
     recoveredNum =0;
 
-
-
 }
-community::community(int s){
+community::community(int s, int m){
     //initialize population here
     size =s;
     days=1;
@@ -58,16 +56,16 @@ community::community(int s){
     //roughly 27% non-elder people in the US has preexisting conditions
     //source: https://www.kff.org/policy-watch/pre-existing-conditions-what-are-they-and-how-many-people-have-them/#:~:text=KFF%20has%20estimated%20that%20in,ACA%20individual%20health%20insurance%20market.
     std::uniform_int_distribution<int> distributionAge(0,62);
-    std::uniform_int_distribution<int> masks(0,9);
+    std::uniform_int_distribution<int> masks(0,99);
     bool hasMask=false;
     bool hasCond =false;
     for(int i=0;i<size;i++){
         if(distributionPreCond(generator) <27){
             hasCond=true;
         }
-//        if(masks(generator) < 9){
+        if(masks(generator) < m){
             hasMask=true;
-//        }
+        }
         int age = distributionAge(generator)+18;
 //        cout<<age<<" ";
         person p(hasMask,hasCond,age);
@@ -171,18 +169,21 @@ void community::run(){
         Time time = clock.getElapsedTime();
         float sec  = time.asSeconds();
         if(sec > 1.0f){
+            int seed = std::chrono::system_clock::now().time_since_epoch().count();
+            std::default_random_engine generator(seed);
+            std::uniform_int_distribution<int> dist(0,100);
             for(int k=0;k<peoples.size();k++){
-                bool dead = peoples.at(k).passAway();
+                int chance = dist(generator);
+                bool dead = peoples.at(k).passAway(chance);
                 if(dead){
                     deathNum++;
                     infectedNum--;
                     infNum.setString("Infected: " + to_string(infectedNum));
                     deaNum.setString("Death: " + to_string(deathNum));
                 }
-
-                bool recovered = peoples.at(k).recover();
+                chance = dist(generator);
+                bool recovered = peoples.at(k).recover(chance);
                 if(recovered){
-                    cout<<"HErE"<<" ";
                     recoveredNum++;
                     infectedNum--;
                     infNum.setString("Infected: " + to_string(infectedNum));

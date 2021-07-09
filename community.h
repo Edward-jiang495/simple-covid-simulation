@@ -23,13 +23,11 @@ private:
     int vulnerableNum;
     int deathNum;
     int recoveredNum;
-    //vaccinated shares the same status with recovered
+
 public:
     community();
-    community(int);
+    community(int,int);
     void run();
-    void move();
-
 };
 
 

@@ -1,18 +1,12 @@
-//
-// Created by 18502 on 6/15/2021.
-//
-
 #include "person.h"
 
 person:: person(){
     infectedPeriod = 0;
     mask = false;
-
-    //direction here represents up down left right
     int seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
-//    generator.seed(std::chrono::system_clock::now().time_since_epoch().count());
     direction =0;
+    //direction ranges from 0-7 represents 4 wayward direction and 4 diagonal ones
     status = vulnerable;
     human.setFillColor(Color::Blue);
     //roughly 27% non-elder people in the US has preexisting conditions
@@ -32,18 +26,13 @@ person:: person(){
 person:: person(bool hasMask, bool medCond, int a){
     infectedPeriod = 0;
     mask = hasMask;
-    int seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine generator(seed);
     direction = 0;
-
     medicalCondition = medCond;
     age= a;
-
     human.setRadius(6.0f);
     human.setOrigin(Vector2f(6.0f,6.0f));
     status = vulnerable;
     human.setFillColor(Color::Blue);
-
 }
 
 
@@ -355,21 +344,19 @@ void person::setMask(bool var){
     mask=var;
 }
 
-bool person::passAway(){
+bool person::passAway(int chance){
+    //we pass the random variable chance here
+    //somehow the random number generated within the function is not random enough
     //this function simulate recovers or death
     //based on randomness and age and preexisting condition
     //naturally, a young man without preexisting condition has a low mortality
     //while an old man with preexisting condition has a high mortality rate
     if(status == infected){
-        int seed = std::chrono::system_clock::now().time_since_epoch().count();
-        std::default_random_engine generator(seed);
-        std::uniform_int_distribution<int> prob(0,99);
         //death rate is dependent on age and preexisting conditions
         //survival rate also depends on age and preexisting condition
         //here are the data for death rate https://www.worldometers.info/coronavirus/coronavirus-age-sex-demographics/
         //i rounded the death rate to the nearest percent
         //preexisting condition roughly increase mortality by 70%
-        int chance = prob(generator);
         double deathRate=1;
         if(medicalCondition){
             deathRate=deathRate*1.7;
@@ -426,18 +413,11 @@ bool person::passAway(){
     return false;
 }
 
-bool person::recover(){
+bool person::recover(int chance){
+    //we pass in a random var chance here as the function generated random numbers are not random enough
     //each day there is a chance that a person recover from covid
     if(status == infected){
-        int seed = std::chrono::system_clock::now().time_since_epoch().count();
-        std::default_random_engine generator(seed);
-        std::uniform_int_distribution<int> prob(0,99);
-        //there are not a lot of resources about recovery rate
-        //but there seems to be a correlation that younger people have a higher recovery rate
-        //while older people have a lower recovery rate
-        int chance = prob(generator);
         double recoveryRate=20;
-//        cout<<"CH "<<chance<<endl;
         //we start at 20% recovery rate
         //this is also the recovery rate for people 18-45
         //we assume preexisting condition lowers the recovery rate
