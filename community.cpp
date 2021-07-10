@@ -11,6 +11,8 @@ community::community(){
     size =30;
     width=1000;
     height=600;
+    vacDevTime=5;
+    maskMandate =0.2;
     int seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
     std::uniform_real_distribution<float> distributionX(200.0,width-200);
@@ -37,13 +39,15 @@ community::community(){
     recoveredNum =0;
 
 }
-community::community(int s, int m){
+community::community(int s, int m, int d, double ma){
     //initialize population here
     size =s;
     days=1;
     //start on day 1
     width=1000;
     height=600;
+    vacDevTime =d;
+    maskMandate=ma;
     int seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
     std::uniform_real_distribution<float> distributionX(200.0,width-200);
@@ -146,6 +150,9 @@ void community::run(){
 
     Clock clock;
     //begin our timer
+    int startdate=-1;
+    //starting date to create the vaccine
+    //we assume that the vaccination will take 5 days
 
     while (window.isOpen()) {
 // check all the window's events that were triggered since the last iteration of the loop
@@ -168,11 +175,22 @@ void community::run(){
         window.draw(deaNum);
         Time time = clock.getElapsedTime();
         float sec  = time.asSeconds();
+        if(deathNum/double(infectedNum) > 0.1 && startdate ==-1){
+            //if death rate reaches over 10% in the infected population
+            //start vaccinating people
+            //in real life, vaccination takes time to invent and
+            //some might need a booster shoot
+            //in this simulation we assume one shot is sufficient and vaccinated
+            //individual will not catch the disease anymore
+            startdate =days;
+        }
         if(sec > 1.0f){
             int seed = std::chrono::system_clock::now().time_since_epoch().count();
             std::default_random_engine generator(seed);
             std::uniform_int_distribution<int> dist(0,100);
             for(int k=0;k<peoples.size();k++){
+                //this for loop is responsible for day counts
+                //and whether infected person passed away or recovered
                 int chance = dist(generator);
                 bool dead = peoples.at(k).passAway(chance);
                 if(dead){
@@ -190,6 +208,23 @@ void community::run(){
                     recNum.setString("Recovered: " + to_string(recoveredNum));
                 }
 
+                if(deathNum/double(infectedNum) > maskMandate){
+                    peoples.at(k).setMask(true);
+                    //mask mandate starts at the same time
+                    //when vaccination is in development
+                }
+
+                if(days - startdate >=vacDevTime){
+                    chance = dist(generator);
+                    bool vaccinated = peoples.at(k).vaccinate(chance);
+                    if(vaccinated){
+                        recoveredNum++;
+                        vulnerableNum--;
+                        vulNum.setString("Vulnerable: " + to_string(vulnerableNum));
+                        recNum.setString("Recovered: " + to_string(recoveredNum));
+                    }
+                }
+
 
                 window.draw(peoples.at(k).getShape());
 
@@ -198,7 +233,9 @@ void community::run(){
             day.setString("Day: " + to_string(days));
             clock.restart();
         }
+
         for(int i=0;i<size;i++){
+            //we use brute force method for collision detection between multiple people
             if(peoples.at(i).getStatus() != person::disease_status::dead){
                 peoples.at(i).move((width-borderWidth)/2,(width+borderWidth)/2,(height-borderHeight)/2,(height+borderHeight)/2);
                 for(int j=0;j<size;j++){

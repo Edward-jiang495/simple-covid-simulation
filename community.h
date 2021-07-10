@@ -23,10 +23,11 @@ private:
     int vulnerableNum;
     int deathNum;
     int recoveredNum;
-
+    int vacDevTime;
+    double maskMandate;
 public:
     community();
-    community(int,int);
+    community(int,int,int,double);
     void run();
 };
 

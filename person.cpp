@@ -343,7 +343,20 @@ bool person:: hasMask(){
 void person::setMask(bool var){
     mask=var;
 }
-
+bool person::vaccinate(int chance){
+    if(status == vulnerable){
+        //vaccine can only work with vulnerable population
+        if(chance < 20){
+            //we assume that each day a person has 20% chance to get vaccinated
+            setStatus(immune);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    return false;
+}
 bool person::passAway(int chance){
     //we pass the random variable chance here
     //somehow the random number generated within the function is not random enough

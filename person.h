@@ -33,6 +33,8 @@ public:
     Vector2f getPosition();
     bool passAway(int);
     bool recover(int);
+    bool vaccinate(int);
+
 
 private:
     int infectedPeriod;
